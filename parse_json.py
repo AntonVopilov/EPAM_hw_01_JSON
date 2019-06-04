@@ -212,21 +212,20 @@ if __name__ == '__main__':
     print('done_1')
 
     title_set = set()
+
+    data_sum = data_1 + data_2
     data = []
-
-    for i, item in enumerate(data_1):
-        if item['title'] not in title_set:
-            title_set.add(item['title'])
+    set_values = set()
+    for i, item in enumerate(data_sum):
+        val = tuple(item.values())
+        if val not in set_values:
             data.append(item)
+            set_values.add(val)
 
-    for i, item in enumerate(data_2):
-        if item['title'] not in title_set:
-            title_set.add(item['title'])
-            data.append(item)
 
-    print('union_done')
 
     dump_json(data, 'union_wine.json')
+    print('dumping done')
 
     sorts = (r'Gew\u00fcrztraminer', 'Riesling', 'Merlot', 'Tempranillo', 'Red Blend')
     stat_items = ('min_price', 'max_price', 'most_common_country', 'most_common_region', 'avarage_score')
