@@ -12,7 +12,7 @@ def collisions_to_list(counter_dict, name, sort_type='max'):
         return {name: [item[0] for (i, item) in enumerate(counter_dict.most_common()[::-1]) if counter_dict[item[0]] == min]}
 
 
-def my_dump(obj):
+def my_dump2(obj):
 
     if obj is None:
         return "null"
@@ -34,6 +34,29 @@ def my_dump(obj):
         for key, value in obj.items():
             s = ''.join([s, my_dump(key), ': ', my_dump(value), ', '])
         return ''.join(['{', s[:-2], '}'])
+
+def my_dump(obj):
+
+    if obj is None:
+        return "null"
+
+    if isinstance(obj, int):
+        return str(obj)
+
+    if isinstance(obj, str):
+        return '"'+obj+'"'
+
+    if isinstance(obj, list):
+        s = ''
+        for inner_obj in obj:
+            s += my_dump(inner_obj) + ', '
+        return '[' + s[:-2] + ']'
+
+    if isinstance(obj, dict):
+        s = ''
+        for key, value in obj.items():
+            s += my_dump(key) + ': ' + my_dump(value) + ', '
+        return '{' + s[:-2] + '}'
 
 
 def dump_json(obj, file_name):
@@ -201,7 +224,9 @@ if __name__ == '__main__':
             title_set.add(item['title'])
             data.append(item)
 
-    #dump_json(data, 'union_wine.json')
+    print('union_done')
+
+    dump_json(data, 'union_wine.json')
 
     sorts = (r'Gew\u00fcrztraminer', 'Riesling', 'Merlot', 'Tempranillo', 'Red Blend')
     stat_items = ('min_price', 'max_price', 'most_common_country', 'most_common_region', 'avarage_score')
